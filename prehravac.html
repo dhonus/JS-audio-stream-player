@@ -50,13 +50,6 @@
          <div class="right">
             <center>
             <a target="_blank" href="#" title="A custom link">
-               <picture>
-                  <!-- here you must put your own logo image for dark and light variants -->
-                  <source
-                     srcset="night.svg"
-                     media="(prefers-color-scheme: dark)">
-                  <img src="day.svg" width="30%" style="margin-bottom:1em;">
-               </picture>
             </a>
             <div class="player">
                <audio preload="metadata" id="audio">Your browser lacks javascript
@@ -165,8 +158,8 @@
             var xmlHttp = new XMLHttpRequest();
             xmlHttp.onreadystatechange = function() {
             if (xmlHttp.readyState == 4 && xmlHttp.status == 200){
-            document.getElementById('song').innerHTML = JSON.parse(xmlHttp.responseText).song;
-            document.getElementById('umelec').innerHTML = JSON.parse(xmlHttp.responseText).artist;
+            document.getElementById('songs').innerHTML = JSON.parse(xmlHttp.responseText).song;
+            document.getElementById('umelecs').innerHTML = JSON.parse(xmlHttp.responseText).artist;
             window.document.title = JSON.parse(xmlHttp.responseText).artist + " - " + JSON.parse(xmlHttp.responseText).song + " | Simple player";
             	}
             }
