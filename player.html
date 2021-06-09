@@ -1,0 +1,163 @@
+<!--
+   To whoever it may concern: replace 'stream.mp3' and const radioSource = '"https://icecast9.play.cz/radio-ostravan.mp3"' with the music stream of your choice.
+-->
+
+<!DOCTYPE html>
+<html lang="cs">
+
+<head>
+   <title>Simple js player</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel='stylesheet' href='player.css' media='all' />
+    <!-- Monospace font for play and pause buttons-->
+    <script src="https://kit.fontawesome.com/6b02184769.js" crossorigin="anonymous"></script>
+    <!-- OFL font for rest of controls-->
+    <script src="https://code.iconify.design/1/1.0.7/iconify.min.js"></script>
+
+</head>
+<body>
+    <!-- if JS is not enabled -->
+    <noscript>
+         <div id="nojs_message">
+            <p>In order for this audio player to function, you need to have javascript enabled. If for any reason you do not wish to use javascript, here is an <ahref="stream.mp3">alternative link to an audio stream</a>.</p>
+         </div>
+      </noscript>
+    <!-- main flex container -->
+    <div class="flex_1" id="flex_1">
+        <div class="background">
+            <center>
+                <a target="_blank" href="#" title="A custom link"></a>
+                <div class="player">
+                    <audio preload="metadata" id="audio">Your browser lacks javascript support, please make use of this alternative link https://audio.mp3></audio>
+                    <p id="umelec" title="Current playing artist">Current playing artist</p>
+                    <p id="song" title="Current playing artist">Current playing song</p>
+                    
+                    <div class="controls">
+                        <h4 id="loader" style="visibility: hidden;
+                           position: absolute;
+                           display: block;
+                           margin: auto;
+                           overflow: visible;"/>
+                     
+                     <!-- wraps the play button and for js to listen to on click -->
+                     <div class="loader"></div>
+                        </h4>
+                        <div class="aroundbutton" alt="Run the stream" id="aroundbutton" title="Start the audio stream" style="cursor: pointer;">
+                            <a class="playbutton">
+                                <i class="fas fa-play fa-fw on" onclick="" id="on"></i>
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="quality" title="Higher quality">
+                        <span class="iconify" data-icon="si-glyph:button-hd" data-inline="false" style="line-height: 10px;color: rgb(178 44 37);margin: 0.455em 0.3em;font-size: 29px;display: table-cell;">></span></i>
+                        <input type="checkbox" class="toggle" onclick="check()" id="quality" checked>
+                    </div>
+
+                    <!-- volume an quality controls-->
+                    <span class="iconify" data-icon="fa:volume-down" data-inline="false" style="color: #343434;height:14px"></span>
+                    <input title="Volume" id="vol-control" type="range" min="0" max="100" step="1" value="100" oninput="SetVolume(this.value)" onchange="SetVolume(this.value)"></input>
+                    <span class="iconify" data-icon="fa:volume-up" data-inline="false" style="color: #343434;height:14px"></span>
+                </div>
+        </div>
+    </div>
+
+    <!-- The audio player code -->
+    <script>
+       //set initial volume var
+        window.SetVolume = function(val)
+         {
+             var player = document.getElementById('audio');
+             console.log('Before: ' + player.volume);
+             player.volume = val / 100;
+             console.log('After: ' + player.volume);
+         }
+         // check for which audio quality to load
+         var checkBox = document.getElementById("quality");
+         
+         const radioSource = "https://icecast9.play.cz/radio-ostravan-256.mp3" + "?" + Math.floor((Math.random() * 10000) + 1) ;
+         const resetAudio = "about:blank";
+         const loader = document.getElementById('loader');
+         const audio = document.getElementById('audio');
+         audio.addEventListener('loadstart', () => {
+           if (audio.src !== resetAudio) {
+             loader.style.visibility = "visible";
+           }
+         });
+         audio.addEventListener('playing', () => {
+           loader.style.visibility = "hidden";
+         });
+         // if cliked the play button start the stream
+         document.getElementById('aroundbutton').addEventListener('click', (evt) => {
+           var element = document.getElementById("on");
+           if(audio.paused){
+             audio.src = resetAudio;
+             audio.pause();
+         		audio.src = radioSource;
+             audio.load();
+             audio.play();
+         		element.classList.remove("fa-play");
+             element.classList.add("fa-pause");
+         		checkBox.checked = true;
+           } else {
+             element.classList.remove("fa-pause");
+             element.classList.add("fa-play");
+             audio.src = resetAudio;
+             audio.pause();
+           }
+          })
+    </script>
+    <script>
+        function check(){
+           if (checkBox.checked == true){
+             const radioSource = "https://icecast9.play.cz/radio-ostravan-256.mp3" + "?" + Math.floor((Math.random() * 10000) + 1) ;
+             const resetAudio = "about:blank";
+         		var element = document.getElementById("on");
+             audio.src = resetAudio;
+             audio.pause();
+         		audio.src = radioSource;
+             audio.load();
+         		audio.play();
+         		element.classList.remove("fa-play");
+         	 element.classList.add("fa-pause");
+         
+          } else {
+            const radioSource = "https://icecast9.play.cz/radio-ostravan.mp3" + "?" + Math.floor((Math.random() * 10000) + 1) ;
+            const resetAudio = "about:blank";
+         	 var element = document.getElementById("on");
+         	 audio.src = resetAudio;
+         	 audio.pause();
+         	 audio.src = radioSource;
+         	 audio.load();
+         	 audio.play();
+         	 element.classList.remove("fa-play");
+         	 element.classList.add("fa-pause");
+         }
+         
+         }
+            // json parser for current playing song and artist
+            function whatIsPlaying() {
+            var url = "https://onair.play.cz/json/radio-ostravan.json";
+            var xmlHttp = new XMLHttpRequest();
+            xmlHttp.onreadystatechange = function() {
+            if (xmlHttp.readyState == 4 && xmlHttp.status == 200){
+            document.getElementById('songs').innerHTML = JSON.parse(xmlHttp.responseText).song;
+            document.getElementById('umelecs').innerHTML = JSON.parse(xmlHttp.responseText).artist;
+            window.document.title = JSON.parse(xmlHttp.responseText).artist + " - " + JSON.parse(xmlHttp.responseText).song + " | Simple player";
+            	}
+            }
+            xmlHttp.open("GET", url, true);
+            xmlHttp.send();
+            }
+            whatIsPlaying();
+            setInterval(whatIsPlaying, 1500); // 2s
+    </script>
+    <script>
+        document.getElementById('on').addEventListener('click', (evt) => {
+           var element = document.getElementById("on");
+           element.classList.remove("fa-pause");
+           element.classList.add("fa-play");
+         })
+    </script>
+</body>
+</html>
