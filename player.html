@@ -1,60 +1,61 @@
 <!DOCTYPE html>
-<html lang="en_us">
+<html lang="en">
 <head>
-   <title>Simple js player</title>
+    <title>Simple js player</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel='stylesheet' href='src/player.css' media='all' />
     <!-- Monospace font for play and pause buttons-->
     <script src="https://kit.fontawesome.com/6b02184769.js" crossorigin="anonymous"></script>
     <!-- OFL font for rest of controls-->
     <script src="https://code.iconify.design/1/1.0.7/iconify.min.js"></script>
-
 </head>
 <body>
     <!-- if JS is not enabled -->
     <noscript>
-         <div id="nojs_message">
-            <p>In order for this audio player to function, you need to have javascript enabled. If for any reason you do not wish to use javascript, here is an <ahref="stream.mp3">alternative link to an audio stream</a>.</p>
-         </div>
-      </noscript>
+        <div id="nojs_message">
+            <p>In order for this audio player to function, you need to have javascript enabled. If for any reason you do
+                not wish to use javascript, here is an <a href="stream.mp3">alternative link to an audio stream</a>.</p>
+        </div>
+    </noscript>
     <!-- main flex container -->
     <div class="flex_1" id="flex_1">
         <div class="background">
-                <a target="_blank" href="#" title="A custom link"></a>
-                <div class="player">
-                    <audio preload="metadata" id="audio">Your browser lacks javascript support, please make use of this alternative link https://audio.mp3></audio>
-                    <p id="artist" title="Current playing artist">Current playing artist</p>
-                    <p id="song" title="Current playing artist">Current playing song</p>
-                    
-                    <div class="controls">
-                        <h4 id="loader" style="visibility: hidden;
-                           position: absolute;
-                           display: block;
-                           margin: auto;
-                           overflow: visible;"/>
-                     
-                     <!-- wraps the play button and for js to listen to on click -->
-                     <div class="loader"></div>
-                        </h4>
-                        <div class="aroundbutton" alt="Run the stream" id="aroundbutton" title="Start the audio stream" style="cursor: pointer;">
-                            <a class="playbutton">
-                                <i class="fas fa-play fa-fw on" onclick="" id="on"></i>
-                            </a>
-                        </div>
-                    </div>
+            <a target="_blank" href="#" title="A custom link"></a>
+            <div class="player">
+                <audio preload="metadata" id="audio">Your browser lacks javascript support, please make use of this
+                    alternative link https://stream.mp3></audio>
+                <p id="artist" title="Current playing artist">Current playing artist</p>
+                <p id="song" title="Current playing artist">Current playing song</p>
 
-                    <div class="quality" title="Higher quality">
-                        <span class="iconify" data-icon="si-glyph:button-hd" data-inline="false" style="line-height: 10px;color: rgb(178 44 37);margin: 0.455em 0.3em;font-size: 29px;display: table-cell;">></span></i>
-                        <input type="checkbox" class="toggle" onclick="check()" id="quality" checked>
+                <div class="controls">
+                    <!-- the rotating loading animation-->
+                    <h4 id="loader">
+                    <!-- wraps the play button and for js to listen to on click -->
+                    <div class="loader"></div>
+                    </h4>
+                    <div class="aroundbutton" alt="Run the stream" id="aroundbutton" title="Start the audio stream">
+                        <a class="playbutton">
+                            <i class="fas fa-play fa-fw on" onclick="" id="on"></i>
+                        </a>
                     </div>
-
-                    <!-- volume an quality controls-->
-                    <span class="iconify" data-icon="fa:volume-down" data-inline="false" style="color: #343434;height:14px"></span>
-                    <input title="Volume" id="vol-control" type="range" min="0" max="100" step="1" value="100" oninput="SetVolume(this.value)" onchange="SetVolume(this.value)"></input>
-                    <span class="iconify" data-icon="fa:volume-up" data-inline="false" style="color: #343434;height:14px"></span>
                 </div>
+
+                <div class="quality" title="Higher quality">
+                    <span class="iconify" data-icon="si-glyph:button-hd" data-inline="false"
+                        style="line-height: 10px;color: rgb(178 44 37);margin: 0.455em 0.3em;font-size: 29px;display: table-cell;">></span>
+                    <input type="checkbox" class="toggle" onclick="check()" id="quality" checked>
+                </div>
+
+                <!-- volume and quality controls-->
+                <span class="iconify" data-icon="fa:volume-down" data-inline="false"
+                    style="color: #343434;height:14px"></span>
+                <input title="Volume" id="vol-control" type="range" min="0" max="100" step="1" value="100"
+                    oninput="SetVolume(this.value)" onchange="SetVolume(this.value)"/>
+                <span class="iconify" data-icon="fa:volume-up" data-inline="false"
+                    style="color: #343434;height:14px"></span>
+            </div>
         </div>
     </div>
+    <script src="src/player.js"></script>
 </body>
-<script src="src/player.js"></script> 
 </html>
