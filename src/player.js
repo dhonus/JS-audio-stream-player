@@ -1,7 +1,6 @@
 let lowQualityStream = "https://icecast9.play.cz/radio-ostravan.mp3";
 let highQualityStream = "https://icecast9.play.cz/radio-ostravan-256.mp3";
 
-
 // this is done to fix caching issues
 function getNewRandomizedLink(linkStream){
     return linkStream + "?" + Math.floor((Math.random() * 10000) + 1);
@@ -17,9 +16,7 @@ const audio = document.getElementById('audio');
 // set initial volume var
 window.SetVolume = function(val) {
     var player = document.getElementById('audio');
-    // console.log('Before: ' + player.volume);
     player.volume = val / 100;
-    // console.log('After: ' + player.volume);
 }
 
 audio.addEventListener('loadstart', () => {
@@ -44,17 +41,17 @@ document.getElementById('aroundbutton').addEventListener('click', (evt) => {
     element.classList.remove("fa-play");
     element.classList.add("fa-pause");
     checkBox.checked = true;
-    } else {
-        element.classList.remove("fa-pause");
-        element.classList.add("fa-play");
-        audio.src = resetAudio;
-        audio.pause();
+  } else {
+    element.classList.remove("fa-pause");
+    element.classList.add("fa-play");
+    audio.src = resetAudio;
+    audio.pause();
     }
  })
 
  // triggered by clicking quality choice button
 function check(){
-    if (checkBox.checked == true) {
+    if (checkBox.checked) {
         const radioSource = getNewRandomizedLink(highQualityStream);
         const resetAudio = "about:blank";
         var element = document.getElementById("on");
@@ -65,7 +62,6 @@ function check(){
         audio.play();
         element.classList.remove("fa-play");
         element.classList.add("fa-pause");
-
    } else {
      const radioSource = getNewRandomizedLink(highQualityStream);
      const resetAudio = "about:blank";
@@ -80,14 +76,15 @@ function check(){
   }
 }
 
-// json parser for current playing song and artist; replace with more relevant code
+// json parser for current playing song and artist
+// replace with a more relevant parser if needed
 function whatIsPlaying() {
     var url = lowQualityStream;
     var xmlHttp = new XMLHttpRequest();
     xmlHttp.onreadystatechange = function() {
         if (xmlHttp.readyState == 4 && xmlHttp.status == 200){
             document.getElementById('songs').innerHTML = JSON.parse(xmlHttp.responseText).song;
-            document.getElementById('umelecs').innerHTML = JSON.parse(xmlHttp.responseText).artist;
+            document.getElementById('artist').innerHTML = JSON.parse(xmlHttp.responseText).artist;
             window.document.title = JSON.parse(xmlHttp.responseText).artist + " - " + JSON.parse(xmlHttp.responseText).song + " | Simple player";
         }
     }
